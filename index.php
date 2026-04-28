@@ -10,58 +10,77 @@ $students = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student List</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
 
-<div class="container mt-5">
+<body class="bg-light">
 
+<div class="container py-5">
+
+    <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Student List</h2>
-        <a href="create.php" class="btn btn-primary">+ Add New Student</a>
+        <h2 class="fw-bold mb-0">Student Records</h2>
+        <a href="create.php" class="btn btn-primary">
+            + Add Student
+        </a>
     </div>
 
-    <?php if (count($students) === 0): ?>
-        <div class="alert alert-info">
-            No students found. Click "Add New Student" to create one.
+    <!-- Empty State -->
+    <?php if (empty($students)): ?>
+        <div class="alert alert-info text-center">
+            No students available yet.
         </div>
     <?php else: ?>
 
-    <div class="table-responsive">
-        <table class="table table-striped table-hover table-bordered shadow-sm align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Course</th>
-                    <th style="width: 160px;">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($students as $s): ?>
-                <tr>
-                    <td><?= (int)$s['id'] ?></td>
-                    <td><?= htmlspecialchars($s['name']) ?></td>
-                    <td><?= htmlspecialchars($s['email']) ?></td>
-                    <td><?= htmlspecialchars($s['course']) ?></td>
-                    <td>
-                        <a href="edit.php?id=<?= (int)$s['id'] ?>" class="btn btn-sm btn-warning">
-                            Edit
-                        </a>
+    <!-- Table -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0 align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Course</th>
+                            <th class="text-center" style="width: 180px;">Actions</th>
+                        </tr>
+                    </thead>
 
-                        <form action="delete.php" method="POST" class="d-inline"
-                              onsubmit="return confirm('Delete this student?');">
-                            <input type="hidden" name="id" value="<?= (int)$s['id'] ?>">
-                            <button type="submit" class="btn btn-sm btn-danger">
-                                Delete
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                    <tbody>
+                        <?php foreach ($students as $s): ?>
+                            <tr>
+                                <td><?= (int)$s['id'] ?></td>
+                                <td><?= htmlspecialchars($s['name']) ?></td>
+                                <td><?= htmlspecialchars($s['email']) ?></td>
+                                <td><?= htmlspecialchars($s['course']) ?></td>
+                                <td class="text-center">
+
+                                    <a href="edit.php?id=<?= (int)$s['id'] ?>"
+                                       class="btn btn-sm btn-warning me-1">
+                                        Edit
+                                    </a>
+
+                                    <form action="delete.php" method="POST"
+                                          class="d-inline"
+                                          onsubmit="return confirm('Delete this student?');">
+
+                                        <input type="hidden" name="id" value="<?= (int)$s['id'] ?>">
+
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            Delete
+                                        </button>
+                                    </form>
+
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
     </div>
 
     <?php endif; ?>
