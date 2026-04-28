@@ -13,10 +13,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header("Location: index.php");
 }
 ?>
-
-<form method="POST">
-    <input type="text" name="name" value="<?= $student['name'] ?>">
-    <input type="email" name="email" value="<?= $student['email'] ?>">
-    <input type="text" name="course" value="<?= $student['course'] ?>">
-    <button type="submit">Update</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Student</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card mx-auto shadow" style="max-width: 500px;">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">Edit Student</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($student['name']) ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($student['email']) ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Course</label>
+                        <input type="text" name="course" class="form-control" value="<?= htmlspecialchars($student['course']) ?>" required>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="index.php" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-success">Update Student</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
