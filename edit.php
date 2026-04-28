@@ -1,16 +1,30 @@
 <?php
 require 'db.php';
-$id = $_GET['id'];
+
+// Validate ID from URL
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+if ($id <= 0) {
+    header("Location: index.php");
+    exit;
+}
 
 // Fetch current data
 $stmt = $pdo->prepare("SELECT * FROM students WHERE id = ?");
 $stmt->execute([$id]);
 $student = $stmt->fetch();
 
+// Redirect if student doesn't exist
+if (!$student) {
+    header("Location: index.php");
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "UPDATE students SET name = ?, email = ?, course = ? WHERE id = ?";
     $pdo->prepare($sql)->execute([$_POST['name'], $_POST['email'], $_POST['course'], $id]);
     header("Location: index.php");
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -43,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     <div class="d-flex justify-content-between">
                         <a href="index.php" class="btn btn-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-success">Update Student</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
                 </form>
             </div>
